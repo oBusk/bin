@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Get the number of times to run the command
+# Get the number of times to run the commands
 n=$1
 
-# Get the command to run
+# Get the commands to run
 shift
-cmd="$@"
+commands="$@"
 
 gray='\033[90m'  # ANSI escape code for gray color
 reset='\033[0m'  # ANSI escape code to reset text color
 
-echo -e "Running command \e[1;31m$n\e[0m times"
-echo -e "\e[2m$cmd\e[0m"
+echo -e "Running commands \e[1;31m$n\e[0m times"
+echo -e "\e[2m$commands\e[0m"
 
 # Function to format the time
 format_time() {
@@ -27,12 +27,12 @@ format_time() {
     echo "$formatted_time"
 }
 
-# Run the command n times and time each execution
+# Run the commands n times and time each execution
 total_time_ms=0
 completed_runs=0
 for ((i=1; i<=n; i++)); do
     start_time=$(date +%s%3N)
-    $cmd >/dev/null 2>&1
+    eval "$commands" >/dev/null 2>&1
     end_time=$(date +%s%3N)
     runtime_ms=$((end_time - start_time))
     total_time_ms=$((total_time_ms + runtime_ms))
